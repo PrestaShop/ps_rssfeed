@@ -45,7 +45,7 @@ class Ps_Rssfeed extends Module
         $this->displayName = $this->trans('RSS feed block', array(), 'Modules.Rssfeed.Admin');
         $this->description = $this->trans('Adds a block displaying a RSS feed.', array(), 'Modules.Rssfeed.Admin');
 
-        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
 
         $this->templateFile = 'module:ps_rssfeed/views/templates/hook/ps_rssfeed.tpl';
     }
