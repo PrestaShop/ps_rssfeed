@@ -24,16 +24,16 @@
 *}
 
 <div>
-	<h2>{$title}</h2>
-	<div>
-		{if $rss_links}
-			<ul>
-				{foreach from=$rss_links item='rss_link'}
-					<li><a href="{$rss_link['link']}" title="{$rss_link['title']}" target="_blank">{$rss_link['title']}</a></li>
-				{/foreach}
-			</ul>
-		{else}
-			<p>{l s='No RSS feed added' d='Modules.Rssfeed.Shop'}</p>
-		{/if}
-	</div>
+  <h2>{$title}</h2>
+  <div>
+    {if $rss_links}
+      <ul>
+        {foreach from=$rss_links item='rss_link'}
+          <li><a href="{$rss_link['link']}" title="{$rss_link['title']}" target="_blank">{$rss_link['title']}</a></li>
+        {/foreach}
+      </ul>
+    {else}
+      <p>{l s='No RSS feed added' d='Modules.Rssfeed.Shop'}</p>
+    {/if}
+  </div>
 </div>
