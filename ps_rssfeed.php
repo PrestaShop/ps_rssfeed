@@ -30,6 +30,11 @@ if (!defined('_PS_VERSION_')) {
 
 class Ps_Rssfeed extends Module
 {
+    /**
+     * @var string Name of the module running on PS 1.6.x. Used for data migration.
+     */
+    const PS_16_EQUIVALENT_MODULE = 'blockrss';
+
     protected $templateFile;
 
     public function __construct()
@@ -52,11 +57,19 @@ class Ps_Rssfeed extends Module
 
     public function install()
     {
-        return (parent::install()
-            && Configuration::updateValue('RSS_FEED_TITLE', $this->trans('RSS feed', array(), 'Modules.Rssfeed.Admin'))
-            && Configuration::updateValue('RSS_FEED_NBR', 5)
-            && $this->registerHook('displayFooter')
-        );
+        $result = parent::install()
+            && $this->registerHook('displayFooter');
+
+        if ($result) {
+            return false;
+        }
+
+        if ($this->uninstallPrestaShop16Module()) {
+            // PS 1.6 module was found, no need to reset data
+            return true;
+        }
+        return Configuration::updateValue('RSS_FEED_TITLE', $this->trans('RSS feed', array(), 'Modules.Rssfeed.Admin'))
+            && Configuration::updateValue('RSS_FEED_NBR', 5);
     }
 
     public function uninstall()
@@ -66,6 +79,27 @@ class Ps_Rssfeed extends Module
             !Configuration::deleteByName('RSS_FEED_NBR')
         ) {
             return false;
+        }
+        return true;
+    }
+
+    /**
+     * Migrate data from 1.6 equivalent module (if applicable), then uninstall
+     */
+    public function uninstallPrestaShop16Module()
+    {
+        if (!Module::isInstalled(self::PS_16_EQUIVALENT_MODULE)) {
+            return false;
+        }
+        $oldModule = Module::getInstanceByName(self::PS_16_EQUIVALENT_MODULE);
+        if ($oldModule) {
+            // This closure calls the parent class to prevent data to be erased
+            // It allows the new module to be configured without migration
+            $parentUninstallClosure = function() {
+                return parent::uninstall();
+            };
+            $parentUninstallClosure = $parentUninstallClosure->bindTo($oldModule, get_class($oldModule));
+            $parentUninstallClosure();
         }
         return true;
     }
