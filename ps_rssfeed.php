@@ -43,7 +43,7 @@ class Ps_Rssfeed extends Module
         parent::__construct();
 
         $this->displayName = $this->trans('RSS feed block', array(), 'Modules.Rssfeed.Admin');
-        $this->description = $this->trans('Adds a block displaying a RSS feed.', array(), 'Modules.Rssfeed.Admin');
+        $this->description = $this->trans('Display the RSS feed of your choice on your shop and keep your pages dynamic.', array(), 'Modules.Rssfeed.Admin');
 
         $this->ps_versions_compliancy = array('min' => '1.7.0.0', 'max' => _PS_VERSION_);
 
