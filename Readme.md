@@ -2,7 +2,7 @@
 
 ## About
 
-Adds a block displaying a RSS feed.
+Display the RSS feed of your choice on your shop and keep your pages dynamic.
 
 ## Multistore compatibility
 
